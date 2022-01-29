@@ -11,6 +11,7 @@ void Color(int color = 10) {
     SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color);
 }
 void dificulty(int menuNav) {
+    //w zależności od wartości menuNav inny napis będzie podświetlony
     switch (menuNav) {
     case 0:
         system("CLS");
@@ -303,6 +304,7 @@ void minegenerator(int minenum, int x, int y, int** tab,int stratingX,int starti
         tab[x1][y1] = 11;
         minecounter++;
     }*/
+    //przechodzi po wysthci komurchach tablicy i dla każdej losuje liczbę z zakresu 1 do 2 w przypadku wyloswowania dwójki wpisuje wartość odopwiadającą minie do komurki
     int minesPerRow = round(minenum / x);
     for (int i = 0; i < y; i++) {
         for (int j = 0; j < x; j++) {
@@ -322,6 +324,7 @@ void minegenerator(int minenum, int x, int y, int** tab,int stratingX,int starti
 }
 void minefieldnumbers(int** minetab, int height, int width) {
     int minecount = 0;
+    //przechodzi po wszytkich komurkach i sprawdza ile min ją otacza taką liczbę wpisuje do komurki
     for (int i = 0; i < width; i++) {
         for (int j = 0; j < height; j++) {
             if (minetab[i][j] == 0) {
@@ -436,6 +439,7 @@ int main()
             }
         }
         while (settings ==TRUE) {
+                //strzałki zwiększają lub zmniejszają watość zminniej od któej zależy co jest wyświetlane oraz po naciśnięciu spacji która opcja zostanie aktywowana
             if (GetKeyState(VK_UP) & 0x8000)
             {
                 settingPosition--;
@@ -521,6 +525,7 @@ int main()
 
             }
             }
+            //generacja tavlicy dwuwymaiarowej kórej wielkość zależy od wybranego poziomu trudości
             int** tabOfPositon = new int* [height];
             for (int i = 0; i < height; i++)
             {
@@ -538,6 +543,7 @@ int main()
             }
             system("CLS");
             box(height, width, x, y, tabOfPositon);
+
             bool lose = FALSE;
             int OpenFields = 0;
             int minecount = 0;
@@ -547,6 +553,7 @@ int main()
                 minesNum = ceil(sizee / 4);
                 minesRowNum = minesNum / height * width;
                 if (sth == 0) {
+                        // dla pierwszego przebiegu czyści tablice na wartości domyślne
                     for (int i = 0; i < width; i++) {
                         for (int j = 0; j < height; j++) {
                             tabOfMineAndValue[i][j] = 0;
@@ -554,6 +561,7 @@ int main()
                             minecount = minesNum;
                         }
                     }
+                    //wykrywa czy zostalo naciśnięte e jeśli tak to do do tablicy tabofpositon przypisuje wartości z tablicy w której znjdują się wartości pól
                     if ((GetKeyState(0x45) & 0x8000)) {
                         pressdetectenter = 1;
                     }
@@ -598,8 +606,8 @@ int main()
                         }
                         else
                         {
-                            int num = difflev + 2;
-                            int random = (rand() % num) + 1;
+                            int num = difflev +2;
+                            int random = (rand() % num) + 1; //losuje liczbe z zakresu 1 do poziom trudności(2 do 4)  +2 w przypadku jedynki odsłania pola dookoła danego pola
                             if (random == 1) {
                                 for (int i = -1; i <= 1; i++) {
                                     for (int j = -1; j <= 1; j++) {
@@ -623,6 +631,7 @@ int main()
                         anybutton++;
                     }
                 }
+                //jeśli zostalo naciśnię te m to pole zostanie oznaczone "flagą" jeśli już się znajduje "flaga" zostanie odznaczone
                 if (GetKeyState(0x4D) & 0x8000)
                     {
                         pressedM++;
@@ -691,7 +700,9 @@ int main()
                 if (y < 0) {
                     y = height - 1;
                 }
-                if (anybutton > 0) {
+                if (anybutton > 0)
+                    {
+                        //w przypadku jakijkolwiek zmiany w pozycji bądż wartości pól wyświetli nowe wartości tabeli
                     COORD c{};
                     c.X = 0;
                     c.Y = 0;
@@ -708,10 +719,12 @@ int main()
                     sth = 0;
                     difMenu = 2;
                     activeMenu = FALSE;
+                //w przypdaku naciśnięcia esc wraca do głownego menu
                     displayMenu(0);
                 }
                 bool showAllMines = TRUE;
                 while (lose == TRUE) {
+                        //w przypdaku przegranej wyświetli plansze z odsloniętymmi wszytkimi minami
                     if (showAllMines == TRUE) {
                         losingScreen();
                         for (int i = 0; i < width; i++) {
@@ -725,6 +738,7 @@ int main()
                         showAllMines = FALSE;
                     }
                     if (GetKeyState(VK_ESCAPE) & 0x8000) {
+                        //wraca do głównego menu
                         sth = 0;
                         difMenu = 2;
                         activeMenu = FALSE;
@@ -734,6 +748,7 @@ int main()
                 }
                 anybutton = 0;
                 if (sizee - minesNum == OpenFields) {
+                    //sprawdza czy zostały odsłonięte wszytkie pola jeśli tak przechodi do ekranu wygranej
                     system("CLS");
                     bool win = TRUE;
                     while (win == TRUE) {
