@@ -1,0 +1,7 @@
+instrukcja 
+strowanie: 
+strzłki do poruszania się po menu i planszy
+spacja do zatwierdzania opcji w menu
+e do sprawdzania pola na planszy
+m do oznaczenia miny
+escape powrut
